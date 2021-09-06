@@ -35,23 +35,36 @@ function love.load()
   -- setup scores
   p1_score = 0
   p2_score = 0
+
+  game_over = false
 end
 
 function love.draw()
-  love.graphics.print(p1_score, 2, 2)
-  love.graphics.print(p2_score, WIDTH-10, 2)
-  love.graphics.rectangle("fill", x, y, pad_w, pad_h)
-  love.graphics.rectangle("fill", p2x, p2y, pad_w, pad_h)
-  love.graphics.circle("fill", bx, by, b_rad)
+  if (not game_over) then
+    love.graphics.print(p1_score, 2, 2)
+    love.graphics.print(p2_score, WIDTH-10, 2)
+    love.graphics.rectangle("fill", x, y, pad_w, pad_h)
+    love.graphics.rectangle("fill", p2x, p2y, pad_w, pad_h)
+    love.graphics.circle("fill", bx, by, b_rad)
+  else
+    love.graphics.print("Game over", WIDTH/2 - 20, HEIGHT/2 - 100)
+    love.graphics.print(string.format("p1: %d\tp2: %d", p1_score, p2_score), WIDTH/2-20, HEIGHT/2)
+  end
+
 end
 
 function love.update(dt)
+  if (not game_over) then 
+    move_p1(dt)
+    move_p2_human(dt)
+    update_ball(dt)
 
-  move_p1(dt)
-  move_p2_human(dt)
-  update_ball(dt)
+    check_scored()
 
-  check_scored()
+    if (p1_score >= 10 or p2_score >= 10) then
+      game_over = true
+    end
+  end
 
   if (love.keyboard.isDown("escape")) then
     love.window.close()
