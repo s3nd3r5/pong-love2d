@@ -6,9 +6,12 @@ function love.load()
 
   pad_h = 50
   pad_w = 10
-  x = 10
+  x = pad_w
   y = HEIGHT / 2 - (pad_h / 2)
   vel = 0
+  p2x = WIDTH - pad_w*2
+  p2y = HEIGHT / 2 - (pad_h / 2)
+  p2vel = 0
   
   bx = WIDTH/2-5
   by = HEIGHT/2-5
@@ -21,6 +24,7 @@ end
 
 function love.draw()
   love.graphics.rectangle("fill", x, y, pad_w, pad_h)
+  love.graphics.rectangle("fill", p2x, p2y, pad_w, pad_h)
   love.graphics.circle("fill", bx, by, b_rad)
 end
 
@@ -60,7 +64,8 @@ function update_ball(dt)
     bvely = bvely * -1
   end
 
-  if (p1_collided(x, y, pad_w, pad_h, bx, by, b_rad)) then
+  if (p1_collided(x, y, pad_w, pad_h, bx, by, b_rad)
+      or p2_collided(p2x, p2y, pad_w, pad_h, bx, by, b_rad)) then
     bvelx = bvelx * -1
     if (vel > 0) then
       bvely = math.abs(bvely)
@@ -81,5 +86,5 @@ function p1_collided(px, py, pw, ph, bx, by, br)
 end
 
 function p2_collided(px, py, pw, ph, bx, by, br)
-  return false
+  return bx+br >= px and by+br >= py and by-br <= py+ph
 end
