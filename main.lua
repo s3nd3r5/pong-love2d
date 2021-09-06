@@ -31,6 +31,7 @@ end
 function love.update(dt)
 
   move_p1(dt)
+  move_p2_human(dt)
   update_ball(dt)
 
   if (love.keyboard.isDown("escape")) then
@@ -52,7 +53,19 @@ function move_p1(dt)
   y = y + vel * dt
   if (y < 0) then y = 0 end
   if (y+pad_h > HEIGHT) then y = HEIGHT - pad_h end
+end
 
+function move_p2_human(dt)
+  if (love.keyboard.isDown("w")) then
+    p2vel = VEL * -1
+  elseif (love.keyboard.isDown("s")) then
+    p2vel = VEL
+  else
+    p2vel = 0
+  end
+  p2y = p2y + p2vel * dt
+  if (p2y < 0) then p2y = 0 end
+  if (p2y+pad_h > HEIGHT) then p2y = HEIGHT - pad_h end
 end
 
 function update_ball(dt)
