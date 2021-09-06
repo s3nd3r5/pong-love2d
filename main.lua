@@ -34,10 +34,12 @@ function love.load()
 
   -- setup scores
   p1_score = 0
-  p2_score = 1
+  p2_score = 0
 end
 
 function love.draw()
+  love.graphics.print(p1_score, 2, 2)
+  love.graphics.print(p2_score, WIDTH-10, 2)
   love.graphics.rectangle("fill", x, y, pad_w, pad_h)
   love.graphics.rectangle("fill", p2x, p2y, pad_w, pad_h)
   love.graphics.circle("fill", bx, by, b_rad)
